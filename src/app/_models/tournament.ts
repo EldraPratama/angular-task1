@@ -3,6 +3,6 @@ export class Tournament {
   name: string;
   description: string;
   participant: string;
-  requirements: string;
+  prize: string;
   token: string;
 }

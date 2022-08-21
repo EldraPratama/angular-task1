@@ -41,9 +41,9 @@ export class TournamentService {
     //     this.router.navigate(['/account/login']);
     // }
 
-    // register(user: User) {
-    //     return this.http.post(`${environment.apiUrl}/users/register`, user);
-    // }
+    create(tournament: Tournament) {
+        return this.http.post(`${environment.apiUrl}/tournament/register`, tournament);
+    }
 
     getAll() {
         return this.http.get<Tournament[]>(`${environment.apiUrl}/tournament`);

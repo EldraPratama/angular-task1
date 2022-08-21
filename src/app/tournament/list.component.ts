@@ -6,21 +6,21 @@ import { TournamentService } from '../_services';
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit {
-    users = null;
+    tournaments = null;
 
     constructor(private tournamentService: TournamentService) {}
 
     ngOnInit() {
         this.tournamentService.getAll()
             .pipe(first())
-            .subscribe(users => this.users = users);
+            .subscribe(tournaments => this.tournaments = tournaments);
     }
 
-    deleteUser(id: string) {
-        const user = this.users.find(x => x.id === id);
+    deleteTournament(id: string) {
+        const user = this.tournaments.find(x => x.id === id);
         user.isDeleting = true;
         this.tournamentService.delete(id)
             .pipe(first())
-            .subscribe(() => this.users = this.users.filter(x => x.id !== id));
+            .subscribe(() => this.tournaments = this.tournaments.filter(x => x.id !== id));
     }
 }

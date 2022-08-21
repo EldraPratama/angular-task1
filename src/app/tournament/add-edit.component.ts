@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AccountService, AlertService } from '../_services';
+import { AccountService, AlertService, TournamentService } from '../_services';
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent implements OnInit {
@@ -18,6 +18,7 @@ export class AddEditComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private accountService: AccountService,
+        private tournamentService: TournamentService,
         private alertService: AlertService
     ) {}
 
@@ -26,20 +27,20 @@ export class AddEditComponent implements OnInit {
         this.isAddMode = !this.id;
         
         // password not required in edit mode
-        const passwordValidators = [Validators.minLength(6)];
-        if (this.isAddMode) {
-            passwordValidators.push(Validators.required);
-        }
+        // const passwordValidators = [Validators.minLength(6)];
+        // if (this.isAddMode) {
+        //     passwordValidators.push(Validators.required);
+        // }
 
         this.form = this.formBuilder.group({
-            firstName: ['', Validators.required],
-            lastName: ['', Validators.required],
-            username: ['', Validators.required],
-            password: ['', passwordValidators]
+            name : ['', Validators.required],
+            description: ['', Validators.required],
+            participant: ['', Validators.required],
+            prize: ['', Validators.required]
         });
 
         if (!this.isAddMode) {
-            this.accountService.getById(this.id)
+            this.tournamentService.getById(this.id)
                 .pipe(first())
                 .subscribe(x => this.form.patchValue(x));
         }
@@ -61,14 +62,14 @@ export class AddEditComponent implements OnInit {
 
         this.loading = true;
         if (this.isAddMode) {
-            this.createUser();
+            this.createTournament();
         } else {
-            this.updateUser();
+            // this.updateTournament();
         }
     }
 
-    private createUser() {
-        this.accountService.register(this.form.value)
+    private createTournament() {
+        this.tournamentService.create(this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {
@@ -82,18 +83,18 @@ export class AddEditComponent implements OnInit {
             });
     }
 
-    private updateUser() {
-        this.accountService.update(this.id, this.form.value)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    this.alertService.success('Update successful', { keepAfterRouteChange: true });
-                    this.router.navigate(['../../'], { relativeTo: this.route });
-                },
-                error: error => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
-            });
-    }
+    // private updateUser() {
+    //     this.tournamentService.update(this.id, this.form.value)
+    //         .pipe(first())
+    //         .subscribe({
+    //             next: () => {
+    //                 this.alertService.success('Update successful', { keepAfterRouteChange: true });
+    //                 this.router.navigate(['../../'], { relativeTo: this.route });
+    //             },
+    //             error: error => {
+    //                 this.alertService.error(error);
+    //                 this.loading = false;
+    //             }
+    //         });
+    // }
 }
