@@ -1,3 +1,3 @@
 export * from './account.service';
 export * from './alert.service';
-// export * from './tournament.service';
+export * from './tournament.service';

@@ -1,8 +1,8 @@
 export class Tournament {
   id: string;
-  username: string;
-  password: string;
-  firstName: string;
-  lastName: string;
+  name: string;
+  description: string;
+  participant: string;
+  requirements: string;
   token: string;
 }

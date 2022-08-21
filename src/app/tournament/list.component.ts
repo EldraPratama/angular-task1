@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 
-import { AccountService } from '../_services';
+// import { AccountService } from '../_services';
+import { TournamentService } from '../_services';
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit {
     users = null;
 
-    constructor(private accountService: AccountService) {}
+    constructor(private tournamentService: TournamentService) {}
 
     ngOnInit() {
-        this.accountService.getAll()
+        this.tournamentService.getAll()
             .pipe(first())
             .subscribe(users => this.users = users);
     }
@@ -18,7 +19,7 @@ export class ListComponent implements OnInit {
     deleteUser(id: string) {
         const user = this.users.find(x => x.id === id);
         user.isDeleting = true;
-        this.accountService.delete(id)
+        this.tournamentService.delete(id)
             .pipe(first())
             .subscribe(() => this.users = this.users.filter(x => x.id !== id));
     }
